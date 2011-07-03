@@ -29,7 +29,14 @@ function taxonomy_dropdowns_box( $post ) {
     global $brand_taxonomy, $taxonomy_name;
     wp_nonce_field('custom-dropdown', 'dropdown-nonce');
     $terms = get_terms( $brand_taxonomy, 'hide_empty=0');
+    if ( is_a( $terms, 'WP_Error' ) ) {
+        $terms = array();
+    }
+
     $object_terms = wp_get_object_terms( $post->ID, $brand_taxonomy, array('fields'=>'ids'));
+    if ( is_a( $object_terms, 'WP_Error' ) ) {
+        $object_terms = array();
+    }
 
     // you can move the below java script to admin_head
 ?>
