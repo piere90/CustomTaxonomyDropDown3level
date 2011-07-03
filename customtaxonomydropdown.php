@@ -7,7 +7,7 @@ Aurhot URI: http://hameedullah.com
  */
 
 // change this to your taxonomy
-$brand_taxonomy = 'brands';
+$brand_taxonomy = 'category';
 $taxonomy_name = 'Brands';
 
 /* registering taxonomy */
@@ -46,8 +46,10 @@ function taxonomy_dropdowns_box( $post ) {
                     var custombrand = jQuery('#custombrandoptions').val();
                     if ( custombrand == '0') {
                         jQuery('#custommodeloptions').html('');
-                            jQuery('#modelcontainer').css('display', 'none');
+                        jQuery('#modelcontainer').css('display', 'none');
                     } else {
+                        jQuery('#ctd-custom-taxonomy-terms-loading').css('display', 'inline');
+                        jQuery('#modelcontainer').css('display', 'none');
                         var data = {
                             'action':'get_brand_models',
                             'custombrand':custombrand,
@@ -55,6 +57,7 @@ function taxonomy_dropdowns_box( $post ) {
                         };
                         jQuery.post(ajaxurl, data, function(response){
                             jQuery('#custommodeloptions').html(response);
+                            jQuery('#ctd-custom-taxonomy-terms-loading').css('display', 'none');
                             jQuery('#modelcontainer').css('display', 'inline');
                         });
                     }
@@ -76,6 +79,7 @@ function taxonomy_dropdowns_box( $post ) {
         }
     }
     echo "</select><br />";
+    echo "<div id='ctd-custom-taxonomy-terms-loading' style='display:none;'>Loading...</div>";
     echo "<div id='modelcontainer'";
     if ( !isset( $parent_id)) echo " style='display: none;'";
     echo ">";
